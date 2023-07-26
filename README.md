@@ -1,7 +1,7 @@
-Repository for the paper "**Adapting the residual dense network for seismic data denoising and upscaling**"
+Repository for the paper "**Robust Full Waveform Inversion: A Source Wavelet Manipulation Perspective**"
 
 # Usage
-This is a supervised learning approach, consisting of 3 steps:
+The main idea of the source manipulation inversion (SMI) is to transform the observed source data into Gaussian source data, thereby improving the convexity of the Full-Waveform Inversion (FWI) objective function. The complete SMI consists of source transformation and the traditional FWI. This repository only includes the deep learning method for solving the source transformation problem. For a more detailed introduction to SMI, please refer to the paper "**Robust Full Waveform Inversion: A Source Wavelet Manipulation Perspective**". The deep learning method for solving the source transformation problem consists of 3 steps:
 
 ## Step 1: Generating training data
 You can generate training data in any way you prefer. We utilized the Python package [Devito](https://www.devitoproject.org/) to generate the training data.
@@ -14,7 +14,7 @@ You can generate training data in any way you prefer. We utilized the Python pac
 
 # Description
 
-- **Random_noise.py/Coherent_noise.py/Missing_trace.py/Super_resolution.py** files are the neural network modules for each task.
+- The **source_transformation.py** file is the neural network module for source_transformation.
 
 - The **parameter.py** file contains data address and hyperparameters.
 
