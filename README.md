@@ -18,6 +18,12 @@ You can generate training data in any way you prefer. We utilized the Python pac
 
 - The **parameter.py** file contains data address and hyperparameters.
 
+# Results （scaled BP 2004 model）:
+
+| Initial model |                         Ground truth                         |                            Ours                             |
+| :-----------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|      <img src="./Figures/BP_init.png" alt="gt_a" style="zoom:33%;" />      | <img src="./Figures/BP_true.png" alt="gt_a" style="zoom:33%;" /> | <img src="./Figures/BP_wavenet.png" alt="a_1" style="zoom:33%;" /> |
+
 # Citation
 
 BibTex
