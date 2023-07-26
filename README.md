@@ -24,9 +24,10 @@ You can generate training data in any way you prefer. We utilized the Python pac
 | :-----------: | :----------------------------------------------------------: |
 |      <img src="./Figures/BP_init.png" alt="gt_a" style="zoom:50%;" />      | <img src="./Figures/BP_true.png" alt="gt_a" style="zoom:50%;" /> |
 
-| Conventional FWI |         SMI                         | 
+
+| Conventional FWI |          SMI                         |
 | :-----------: | :----------------------------------------------------------: |
-|      <img src="./Figures/BP_Ricker.png" alt="gt_a" style="zoom:50%;" />      | <img src="./Figures/BP_wavenet.png" alt="gt_a" style="zoom:50%;" /> | 
+|      <img src="./Figures/BP_Ricker.png" alt="gt_a" style="zoom:50%;" />      | <img src="./Figures/BP_wavenet.png" alt="gt_a" style="zoom:50%;" /> |
 
 # Citation
 
