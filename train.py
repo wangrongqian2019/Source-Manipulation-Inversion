@@ -133,7 +133,7 @@ for epoch in range(num_epochs):
 
     loss_res[epoch] = train_l_sum/batch_count 
     valida_res[epoch] = snr
-    if ((epoch+1) % 100) == 0:
+    if ((epoch+1) % 5) == 0:
         torch.save(net.state_dict(), parameters.result_path+str(epoch+parameters.checkpoint_epoch+1)+'.pkl')
         io.savemat(parameters.result_path+'training_epoch.mat',{'loss_res':loss_res,'valida_res':valida_res})
 

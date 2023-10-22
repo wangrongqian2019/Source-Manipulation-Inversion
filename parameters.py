@@ -1,5 +1,5 @@
 
-### train
+### train （add training data and validation data here，format=h5py,size=(sample_size_train,,parameters.img_resolution1, parameters.img_resolution2))
 data_path =
 test_data_path =
 
