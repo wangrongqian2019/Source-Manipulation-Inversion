@@ -33,13 +33,13 @@ You can generate training data in any way you prefer. We utilized the Python pac
 
 BibTex
 
-    @article{wang2022adapting,
-        title={Adapting the residual dense network for seismic data denoising and upscaling},
-        author={Wang, Rongqian and Zhang, Ruixuan and Bao, Chenglong and Qiu, Lingyun and Yang, Dinghui},
-        journal={Geophysics},
-        volume={87},
-        number={4},
-        pages={V321--V340},
-        year={2022},
-        publisher={Society of Exploration Geophysicists}
-    }
+    @article{bao2023robust,
+        title={Robust Full Waveform Inversion: A Source Wavelet Manipulation Perspective},
+        author={Bao, Chenglong and Qiu, Lingyun and Wang, Rongqian},
+        journal={SIAM Journal on Scientific Computing},
+        volume={45},
+        number={6},
+        pages={B753--B775},
+        year={2023},
+        publisher={SIAM}
+        }
