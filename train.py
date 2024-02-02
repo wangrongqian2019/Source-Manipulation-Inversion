@@ -42,19 +42,19 @@ def SNR(noisy,gt):
 sample_size_train = parameters.sample_size_train
 sample_size_test = parameters.sample_size_test
 
-x = np.zeros([sample_size_train, 1,parameters.img_resolution1, parameters.img_resolution2])
-y = np.zeros([sample_size_train, 1,parameters.img_resolution1, parameters.img_resolution2])
+x = np.zeros([sample_size_train, 1,parameters.timespan_input, parameters.trace])
+y = np.zeros([sample_size_train, 1,parameters.timespan, parameters.trace])
 
-Y = np.empty([sample_size_test,1,parameters.img_resolution1,parameters.img_resolution2])
-X = np.empty([sample_size_test,1,parameters.img_resolution1,parameters.img_resolution2])  
+X = np.empty([sample_size_test,1,parameters.timespan_input,parameters.trace])  
+Y = np.empty([sample_size_test,1,parameters.timespan,parameters.trace])
 
 f = h5py.File(parameters.data_path, 'r')
-x[:,:,:,:] = f['X'][0:sample_size_train,:,:]
+x[:,:,:parameters.timespan,:] = f['X'][0:sample_size_train,:,:]
 y[:,:,:,:] = f['Y'][0:sample_size_train,:,:]
 f.close()
  
 f = h5py.File(parameters.test_data_path, 'r')
-X[:,:,:,:] = f['X'][0:sample_size_test,:,:]
+X[:,:,:parameters.timespan,:] = f['X'][0:sample_size_test,:,:]
 Y[:,:,:,:] = f['Y'][0:sample_size_test,:,:]
 f.close()
 
@@ -86,15 +86,10 @@ scheduler = lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs, eta_min=
 loss_res = np.zeros(num_epochs) 
 valida_res = np.zeros(num_epochs)
 
-#gpu_tracker = MemTracker() 
-#gpu_tracker.track()
-#net=torch.nn.DataParallel(net)
-
 if parameters.checkpoint_epoch>0:
     net.load_state_dict(torch.load(parameters.result_path+str(parameters.checkpoint_epoch)+'.pkl'))
 
 net = net.to(device)
-#gpu_tracker.track()
 
 print("training on ", device)
 loss = torch.nn.L1Loss(reduction='sum') #torch.nn.MSELoss(reduction='sum')
@@ -103,7 +98,6 @@ loss = torch.nn.L1Loss(reduction='sum') #torch.nn.MSELoss(reduction='sum')
 Xt = Variable(torch.from_numpy(X))
 Xt = Xt.to(device)
 Xt = Xt.type(torch.cuda.FloatTensor)
-#gpu_tracker.track()
 
 for epoch in range(num_epochs):
     train_l_sum = 0.0
@@ -125,8 +119,8 @@ for epoch in range(num_epochs):
     with torch.no_grad():
         Y_hat = net(Xt)
         Y_hat = Y_hat.data.cpu().numpy()
-        Y_hat = Y_hat.reshape(sample_size_test,1,parameters.img_resolution1,parameters.img_resolution2)
-        #Y_hat = Y_hat/np.max(Y_hat)
+        Y_hat = Y_hat.reshape(sample_size_test,1,parameters.timespan,parameters.trace)
+
         snr = np.mean(SNR(Y_hat,Y))
     print('epoch %d, loss %.6f, validation %.6f, time %.1f sec'
           % (epoch +parameters.checkpoint_epoch+ 1, train_l_sum/batch_count , snr, time.time() - start))
@@ -137,8 +131,8 @@ for epoch in range(num_epochs):
         torch.save(net.state_dict(), parameters.result_path+str(epoch+parameters.checkpoint_epoch+1)+'.pkl')
         io.savemat(parameters.result_path+'training_epoch.mat',{'loss_res':loss_res,'valida_res':valida_res})
 
-np.savetxt('loss.csv', loss_res, delimiter = '')
-np.savetxt('validation.csv', valida_res, delimiter = '')
+    np.savetxt('loss.csv', loss_res, delimiter = '')
+    np.savetxt('validation.csv', valida_res, delimiter = '')
 
 print('smallest error on trainging set:',np.argmin(loss_res)+1,'smallest error on test set:',np.argmax(valida_res)+1)
 print('current time:',datetime.now())

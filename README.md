@@ -18,7 +18,9 @@ You can generate training data in any way you prefer. We utilized the Python pac
 
 - The **parameter.py** file contains data address and hyperparameters.
 
-# Results （scaled BP 2004 model）:
+- The **wavenet2d-example.ipynb** file shows a test example. To run this code successfully, you need download a well-trained network from [smi-cnn](https://drive.google.com/file/d/1X8e5nfxO2uQcGx3cIe24-4FJKn8aF59K/view?usp=drive_link) and save it to `checkpoints`. 
+
+# Results （scaled BP 2004 model inversion）:
 
 | Initial model |          Ground truth                         |
 | :-----------: | :----------------------------------------------------------: |

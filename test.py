@@ -38,31 +38,37 @@ def SNR(noisy,gt):
     SNR = 10 * math.log((msegt/mseres),10)
     return SNR
 
-## load data
-sample_size_test = parameters.sample_size_test
-
-Y = np.empty([sample_size_test,1,parameters.img_resolution1,parameters.img_resolution2])
-X = np.empty([sample_size_test,1,parameters.img_resolution1,parameters.img_resolution2])  
-
-f = h5py.File(parameters.test_data_path, 'r')
-X[:,:,:,:] = f['X'][0:sample_size_test,:,:]
-Y[:,:,:,:] = f['Y'][0:sample_size_test,:,:]
-f.close()
-
-## load test data in GPU
-Xt = Variable(torch.from_numpy(X))
-Xt = Xt.to(device)
-Xt = Xt.type(torch.cuda.FloatTensor)
-
-## test
 net.load_state_dict(torch.load(parameters.result_path+str(parameters.test_checkpoint_epoch)+'.pkl'))
-
 net = net.to(device)
 
+### test
+time_span = parameters.timespan_input
+time_span2 = parameters.timespan
+receiver = parameters.receiver
+trace = parameters.trace
+testnum = parameters.testnum
+
+## load testdata
+f = h5py.File("./data/marmousi_testdata_shot77.h5", "r")
+X = f['X'][:]
+Y = f['Y'][:]
+f.close()
+
+Xinput = np.zeros([testnum,1,time_span,trace])
+
+for k in range(1):
+    for i in range(testnum):
+        Xinput[k*testnum+i,0,:time_span2,:] = X[:,trace*i:trace*i+trace].reshape((1,1,time_span2,trace))
+        
 with torch.no_grad():
-    Y_hat = net(Xt)
-    Y_hat = Y_hat.data.cpu().numpy()
-    Y_hat = Y_hat.reshape(sample_size_test,parameters.img_resolution1,parameters.img_resolution2)
+    Xt = Variable(torch.from_numpy(Xinput))
+    Xt = Xt.to(device).type(torch.cuda.FloatTensor)
+    Youtput = net(Xt).data.cpu().numpy()
+
+Y_hat = np.zeros([time_span2,receiver])
+for k in range(1):
+    for i in range(testnum):
+        Y_hat[:,i*trace:i*trace+trace] = Youtput[i][0]
 
 ## plot
 import matplotlib.pyplot as plt
@@ -80,8 +86,8 @@ plt.yticks(size=15)
 plt.xticks(size=15)
 
 plt.subplot(1,3,2)     
-plt.title('y_hat, SNR=%.4f'%(SNR(y_hat[temp],Y[temp])),fontsize=18)
-plt.imshow(dat_bp[temp],vmax=cmax,vmin=cmin,extent=extent,cmap=colour)
+plt.title('y_hat, SNR=%.4f'%(SNR(Y_hat[temp],Y[temp])),fontsize=18)
+plt.imshow(Y_hat[temp],vmax=cmax,vmin=cmin,extent=extent,cmap=colour)
 plt.yticks(size=15)
 plt.xticks(size=15)
 

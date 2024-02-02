@@ -1,5 +1,6 @@
 
-### train （add training data and validation data here，format=h5py,size=(sample_size_train,,parameters.img_resolution1, parameters.img_resolution2))
+### train(add training data and validation data here，format=h5py,size=(sample_size_train,,parameters.timespan, parameters.trace=3))
+### parameters.trace is related to the CNN, must be 3 without modifying the neural network
 data_path =
 test_data_path =
 
@@ -15,16 +16,18 @@ num_epochs = 300
 batchsize = 16
 regular = 0
 
-receiver_num = 560
-img_resolution1 = 2048
-img_resolution2 = 3
+timespan = 2048
+timespan_input = 4095
+trace = 3
 
 ### test
+receiver = 921
+testnum = 307
 
 val_data_path = test_data_path
 Output_path='./OUTPUTS/'
 
-test_checkpoint_epoch = 0
+test_checkpoint_epoch = 48
 
 sample_id_test = 5400
 sample_size_test = 1
