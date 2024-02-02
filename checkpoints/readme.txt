@@ -1,0 +1,1 @@
+download the well-trained network from smi-cnn and save it here
