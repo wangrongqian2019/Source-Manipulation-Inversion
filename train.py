@@ -45,8 +45,8 @@ sample_size_test = parameters.sample_size_test
 x = np.zeros([sample_size_train, 1,parameters.timespan_input, parameters.trace])
 y = np.zeros([sample_size_train, 1,parameters.timespan, parameters.trace])
 
-X = np.empty([sample_size_test,1,parameters.timespan_input,parameters.trace])  
-Y = np.empty([sample_size_test,1,parameters.timespan,parameters.trace])
+X = np.zeros([sample_size_test,1,parameters.timespan_input,parameters.trace])  
+Y = np.zeros([sample_size_test,1,parameters.timespan,parameters.trace])
 
 f = h5py.File(parameters.data_path, 'r')
 x[:,:,:parameters.timespan,:] = f['X'][0:sample_size_train,:,:]

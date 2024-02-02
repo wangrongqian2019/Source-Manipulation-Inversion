@@ -2,8 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import MultipleLocator
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from mpl_toolkits.axes_grid1.inset_locator import mark_inset
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 def plot_data(data):
     cmax = 1

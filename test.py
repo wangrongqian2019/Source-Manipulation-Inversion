@@ -31,13 +31,6 @@ print(device)
 from source_transformation import wavenet2d as myNet
 net = myNet()
 
-def SNR(noisy,gt):
-    res = noisy - gt
-    msegt = np.mean(gt * gt)
-    mseres = np.mean(res * res)
-    SNR = 10 * math.log((msegt/mseres),10)
-    return SNR
-
 net.load_state_dict(torch.load(parameters.result_path+str(parameters.test_checkpoint_epoch)+'.pkl'))
 net = net.to(device)
 
@@ -80,13 +73,13 @@ cmin = -cmax
 colour = 'gray'
 
 plt.subplot(1,3,1)     
-plt.title('X, SNR=%.4f'%(SNR(X[temp],Y[temp])),fontsize=18)   
+plt.title('X, L2_loss=%.4f'%(L2_loss(X[temp],Y[temp])),fontsize=18)   
 plt.imshow(X[temp],vmax=cmax,vmin=cmin,extent=extent,cmap=colour)
 plt.yticks(size=15)
 plt.xticks(size=15)
 
 plt.subplot(1,3,2)     
-plt.title('y_hat, SNR=%.4f'%(SNR(Y_hat[temp],Y[temp])),fontsize=18)
+plt.title('y_hat, L2_loss=%.4f'%(L2_loss(Y_hat[temp],Y[temp])),fontsize=18)
 plt.imshow(Y_hat[temp],vmax=cmax,vmin=cmin,extent=extent,cmap=colour)
 plt.yticks(size=15)
 plt.xticks(size=15)

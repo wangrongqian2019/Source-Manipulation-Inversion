@@ -32,7 +32,7 @@ test_checkpoint_epoch = 48
 sample_id_test = 5400
 sample_size_test = 1
 
-num_epochs_test = 500
+num_epochs_test = 100
 test_tag = 0
 sample_size_val = 100
 sample_id = 5000
